@@ -31,8 +31,9 @@ on:
 
 jobs:
   changelog:
-    uses: logstash-plugins/.github/.github/workflows/pr-prepare.yml@main
+    uses: alexcams/.github/.github/workflows/pr-prepare.yml@use-GH-App-for-commit
     with:
       command: ${{ inputs.command }}
       pr_number: ${{ inputs.pr_number }}
       changelog_entry: ${{ inputs.changelog_entry }}
+    secrets: inherit
