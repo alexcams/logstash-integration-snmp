@@ -67,6 +67,12 @@ class LogStash::Inputs::Snmp < LogStash::Inputs::Base
   # Timeout in milliseconds to execute all hosts configured operations (get, walk, table).
   config :poll_hosts_timeout, :validate => :number
 
+  # Sets the maximum number of repetitions for GETBULK requests used in `walk` and `table` operations.
+  # This controls how many rows are returned per PDU in SNMPv2c/v3 GETBULK requests.
+  # Lowering this value may help avoid timeouts when polling devices with large tables.
+  # When not set, the SNMP4J library default of 10 is used.
+  config :max_repetitions, :validate => :number
+
   # Append values to the `tags` field when one or more SNMP operations fail
   config :tag_on_failure, :validate => :array, :default => ['_snmpfailure']
 
@@ -335,6 +341,7 @@ class LogStash::Inputs::Snmp < LogStash::Inputs::Base
   def build_client!(mib_manager, supported_transports, hosts_versions)
     client_builder = org.logstash.snmp.SnmpClient.builder(mib_manager, supported_transports)
     client_builder.setLocalEngineId(@local_engine_id) unless @local_engine_id.nil?
+    client_builder.setMaxRepetitions(@max_repetitions) unless @max_repetitions.nil?
 
     build_snmp_client!(client_builder, validate_usm_user: hosts_versions.include?('3'))
   end

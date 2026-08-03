@@ -971,6 +971,44 @@ class SnmpClientTest {
     }
 
     @Test
+    void createGetTreeUtilsShouldSetMaxRepetitionsWhenConfigured() throws IOException {
+        try (SnmpClient client = createClientBuilder(Set.of("udp"))
+                .setMaxRepetitions(5)
+                .build()) {
+
+            final TreeUtils treeUtils = client.createGetTreeUtils();
+            assertEquals(5, treeUtils.getMaxRepetitions());
+        }
+    }
+
+    @Test
+    void createGetTreeUtilsShouldUseDefaultMaxRepetitionsWhenNotConfigured() throws IOException {
+        try (SnmpClient client = createClient()) {
+            final TreeUtils treeUtils = client.createGetTreeUtils();
+            assertEquals(10, treeUtils.getMaxRepetitions());
+        }
+    }
+
+    @Test
+    void createGetTableUtilsShouldSetMaxNumRowsPerPDUWhenConfigured() throws IOException {
+        try (SnmpClient client = createClientBuilder(Set.of("udp"))
+                .setMaxRepetitions(5)
+                .build()) {
+
+            final TableUtils tableUtils = client.createGetTableUtils();
+            assertEquals(5, tableUtils.getMaxNumRowsPerPDU());
+        }
+    }
+
+    @Test
+    void createGetTableUtilsShouldUseDefaultMaxNumRowsPerPDUWhenNotConfigured() throws IOException {
+        try (SnmpClient client = createClient()) {
+            final TableUtils tableUtils = client.createGetTableUtils();
+            assertEquals(10, tableUtils.getMaxNumRowsPerPDU());
+        }
+    }
+
+    @Test
     void trapShouldAddCommandResponderAndListen() throws Exception {
         try (final SnmpClient client = spy(createClient())) {
             final Snmp snmp = spy(client.getSnmp());
