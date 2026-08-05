@@ -1422,6 +1422,7 @@ class SnmpClientTest {
                 .setMessageDispatcherPoolName("FooBarWorker")
                 .setMessageDispatcherPoolSize(1)
                 .setLocalEngineId(LOCAL_ENGINE_ID)
+                .setMaxRepetitions(10)
                 .addUsmUser(
                         USER.getSecurityName().toString(),
                         "md5",

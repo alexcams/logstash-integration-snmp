@@ -423,9 +423,7 @@ public class SnmpClient implements Closeable {
 
     TreeUtils createGetTreeUtils() {
         final TreeUtils treeUtils = new TreeUtils(getSnmp(), creatPDUFactory(PDU.GET));
-        if (maxRepetitions > 0) {
-            treeUtils.setMaxRepetitions(maxRepetitions);
-        }
+        treeUtils.setMaxRepetitions(maxRepetitions);
         return treeUtils;
     }
 
@@ -497,9 +495,7 @@ public class SnmpClient implements Closeable {
 
     TableUtils createGetTableUtils() {
         final TableUtils tableUtils = new TableUtils(getSnmp(), creatPDUFactory(PDU.GET));
-        if (maxRepetitions > 0) {
-            tableUtils.setMaxNumRowsPerPDU(maxRepetitions);
-        }
+        tableUtils.setMaxNumRowsPerPDU(maxRepetitions);
         return tableUtils;
     }
 
